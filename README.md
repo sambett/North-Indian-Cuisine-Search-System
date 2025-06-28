@@ -1,236 +1,305 @@
-# 🍛 North Indian Cuisine Search System
+# Allergen Detection System for North Indian RAG
 
-## AI-Powered Semantic Search for North Indian Recipes & Ingredients
+🛡️ **Safety-enhanced RAG system with comprehensive allergen detection for North Indian cuisine**
 
-A sophisticated RAG (Retrieval-Augmented Generation) system that enables intelligent search across thousands of authentic North Indian recipes using vector embeddings and semantic similarity.
+## 🚀 Quick Start
 
-![North Indian Cuisine Search System](https://img.shields.io/badge/AI-Powered-blue) ![Docker](https://img.shields.io/badge/Docker-Ready-brightgreen) ![Streamlit](https://img.shields.io/badge/Streamlit-Web%20App-red) ![ChromaDB](https://img.shields.io/badge/ChromaDB-Vector%20Database-purple)
+1. **Download allergen data:**
+   ```bash
+   python download_allergen_data.py
+   ```
 
-## 🌟 Features
+2. **Test the system:**
+   ```bash
+   python test_system.py
+   ```
 
-- **🔍 Semantic Search**: Find recipes by ingredients, dish names, or cooking methods
-- **🧠 AI-Powered**: Uses sentence transformers for intelligent query understanding  
-- **📊 Vector Database**: ChromaDB with 50,000+ searchable recipe documents
-- **🎯 Multi-Search Types**: Recipe search, ingredient search, and general food queries
-- **🐳 Docker Ready**: Containerized for easy deployment and consistency
-- **🎨 Beautiful UI**: Modern Streamlit interface with real-time results
-- **📈 Confidence Scoring**: Shows relevance scores for search results
-
-## 🏗️ System Architecture
-
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Raw Data      │───▶│  Data Processing │───▶│  Vector Database│
-│  (Kaggle CSV)   │    │     Pipeline     │    │   (ChromaDB)    │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                                        │
-                                                        ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Streamlit     │◀───│  Search Engine   │◀───│  AI Embeddings  │
-│   Web App       │    │                  │    │ (Transformers)  │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-```
-
-## 🚀 Quick Start with Docker
-
-### Prerequisites
-- Docker installed on your system
-- 8GB+ RAM recommended for optimal performance
-
-### 1. Clone the Repository
-```bash
-git clone https://github.com/sambett/North-Indian-Cuisine-Search-System.git
-cd North-Indian-Cuisine-Search-System
-```
-
-### 2. Get the Data
-Since the vector database is too large for GitHub, you need to build it locally:
-
-```bash
-# Download the Kaggle Indian Food Dataset and place it in:
-# data/raw/IndianFoodDatasetCSV.csv
-```
-
-### 3. Build the Vector Database
-```bash
-# Process the data and build the vector database
-python clean_process_indian_food.py
-python build_vector_database.py
-```
-
-### 4. Build and Run with Docker
-```bash
-# Build the Docker image
-docker build -t northindianrag .
-
-# Run the container
-docker run -p 8501:8501 northindianrag
-```
-
-### 5. Access the Application
-Open your browser and navigate to: **http://localhost:8501**
-
-## 🛠️ Manual Setup (Alternative)
-
-### Requirements
-- Python 3.9+
-- pip or conda
-
-### Installation
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the data processing pipeline
-python clean_process_indian_food.py
-python build_vector_database.py
-
-# Launch the Streamlit app
-streamlit run streamlit_rag_app_fixed.py
-```
-
-## 📊 Database Statistics
-
-Once built, your system will contain:
-- **3,499** North Indian recipes
-- **43,671** ingredient usage documents  
-- **3,499** general search documents
-- **50,000+** total searchable documents
-
-## 🔍 Search Capabilities
-
-### Recipe Search
-Find ingredients and details for specific dishes:
-- *"What ingredients are in Dal Makhani?"*
-- *"Show me Chole Bhature recipe details"*
-- *"Find butter chicken ingredients"*
-
-### Ingredient Search  
-Discover dishes that use specific ingredients:
-- *"Which dishes use paneer?"*
-- *"Recipes with black lentils"*
-- *"Dishes using garam masala"*
-
-### General Search
-Explore by cuisine type, region, or cooking style:
-- *"Popular Punjabi dishes"*
-- *"Vegetarian North Indian food"*
-- *"Traditional Delhi cuisine"*
-
-## 🎯 Geographic Coverage
-
-Focuses on authentic recipes from:
-- **Punjab** - Traditional Punjabi cuisine
-- **Chandigarh** - Modern North Indian dishes  
-- **Haryana** - Regional specialties
-- **Delhi** - Street food and restaurant dishes
-
-## 🧬 Technical Stack
-
-- **Backend**: Python 3.9+
-- **Vector Database**: ChromaDB 0.4.15
-- **Embeddings**: SentenceTransformers (all-MiniLM-L6-v2)
-- **Web Framework**: Streamlit
-- **Containerization**: Docker
-- **Data Processing**: Pandas, NumPy
-- **Search**: Semantic similarity with cosine distance
+3. **Try the integration demo:**
+   ```bash
+   python rag_integration.py
+   ```
 
 ## 📁 Project Structure
 
 ```
-North-Indian-Cuisine-Search-System/
-├── 📄 README.md                     # This file
-├── 📄 Dockerfile                    # Docker configuration
-├── 📄 requirements.txt              # Python dependencies
-├── 📄 .gitignore                    # Git ignore rules
-├── 📄 streamlit_rag_app_fixed.py    # Main Streamlit application
-├── 📄 clean_process_indian_food.py  # Data cleaning pipeline
-├── 📄 build_vector_database.py      # Vector database builder
-├── 📄 check_collections.py          # Database verification tool
-├── 📁 data/                         # Data directory (not in repo)
-│   ├── raw/                         # Raw datasets
-│   └── processed/                   # Cleaned data
-└── 📁 north_indian_rag_db/          # Vector database (not in repo)
+northindian_rag/
+├── allergen_detection.py          # Core allergen detection engine
+├── rag_integration.py             # RAG system integration example
+├── download_allergen_data.py      # Data download and setup script
+├── test_system.py                 # Basic test script
+├── README.md                      # This file
+└── allergen_data/                 # Generated allergen databases
+    ├── swiss_eu_allergens.json    # EU 14 allergen categories
+    ├── indian_allergens.json      # Indian cuisine specific allergens  
+    ├── comprehensive_allergen_db.json # Combined database
+    └── integration_config.json    # Configuration settings
 ```
 
-## 🔧 Configuration
+## 🧬 Core Features
 
-### Environment Variables
-- `ANONYMIZED_TELEMETRY=False` - Disables ChromaDB telemetry
-- `CHROMA_TELEMETRY=False` - Additional telemetry control
+### ✅ Comprehensive Allergen Coverage
+- **FDA Big 8** allergens (US standard)
+- **EU 14** allergen categories (European standard)
+- **Indian cuisine specific** allergens (hing, methi, etc.)
+- **Regional language support** (Hindi terms included)
 
-### Performance Tuning
-- **Batch Size**: Adjust in `build_vector_database.py` (default: 50)
-- **Memory**: Increase Docker memory allocation for large datasets
-- **CPU**: More cores = faster embedding generation
+### ✅ Smart Detection
+- **Rule-based pattern matching** with regex optimization
+- **Confidence scoring** based on context and frequency
+- **Negation handling** (detects "dairy-free", "no nuts", etc.)
+- **Multi-language detection** (English + Hindi)
 
-## 🐛 Troubleshooting
+### ✅ Safety Classifications
+- **🚨 CRITICAL**: Can cause anaphylaxis (peanuts, shellfish, tree nuts)
+- **⚠️ HIGH**: Serious allergic reactions (milk, eggs, fish)
+- **⚡ MODERATE**: Noticeable reactions (soy, mustard, celery)
 
-### Common Issues
+### ✅ RAG Integration
+- **Modular design** - wraps around your existing RAG system
+- **Document analysis** - scans retrieved recipes for allergens
+- **User profile support** - personalized warnings based on known allergies
+- **Safety recommendations** - actionable advice and substitutions
 
-**Database not found error:**
+## 🔧 Integration with Your RAG System
+
+### Step 1: Basic Integration
+
+```python
+from allergen_detection import AllergenDatabase, RAGAllergenExtension
+from rag_integration import SafetyEnhancedRAG
+
+# Wrap your existing RAG system
+existing_rag = YourRAGSystem()  # Your current system
+safe_rag = SafetyEnhancedRAG(existing_rag)
+
+# Use enhanced system
+result = safe_rag.safe_query("butter chicken recipe", 
+                            user_allergies=["dairy", "nuts"])
+
+# Check safety
+if result['safe_for_user']:
+    print("✅ Safe to proceed!")
+    # Show recipes
+else:
+    print("⚠️ Allergen warning detected!")
+    # Show warnings and alternatives
+```
+
+### Step 2: Customize for Your System
+
+1. **Modify document structure** in `allergen_detection.py`:
+   ```python
+   def _extract_text_from_document(self, document: Dict) -> str:
+       # Update this method to match your document format
+       return document['your_content_field']
+   ```
+
+2. **Update retrieval method** in `rag_integration.py`:
+   ```python
+   # Change this line to match your RAG system:
+   retrieved_docs = self.rag_system.your_retrieve_method(query, **kwargs)
+   ```
+
+## 📊 Allergen Database Details
+
+### Major Allergens (EU 14 + FDA 8)
+| Allergen | Severity | Common in Indian Cuisine |
+|----------|----------|-------------------------|
+| **Milk/Dairy** | HIGH | ✅ Ghee, paneer, yogurt |
+| **Tree Nuts** | CRITICAL | ✅ Cashews, almonds in gravies |
+| **Peanuts** | CRITICAL | ✅ Groundnut oil, chutneys |
+| **Wheat/Gluten** | HIGH | ✅ Roti, naan, thickeners |
+| **Sesame** | HIGH | ✅ Til, sesame oil |
+| **Mustard** | MODERATE | ✅ Mustard oil, tempering |
+| **Eggs** | HIGH | ❌ Less common |
+| **Fish** | HIGH | ❌ Regional dishes only |
+| **Shellfish** | CRITICAL | ❌ Rare in North Indian |
+| **Soy** | MODERATE | ❌ Modern additions |
+
+### Indian-Specific Allergens
+- **Asafoetida (Hing)** - Common in dal and vegetarian dishes
+- **Fenugreek (Methi)** - Seeds and leaves in curries
+- **Coconut** - South Indian influence in North Indian cooking
+- **Tamarind (Imli)** - In chutneys and some curries
+
+## 🧪 Testing & Validation
+
+### Run Comprehensive Tests
 ```bash
-# Verify database exists
-python check_collections.py
+# Basic functionality test
+python test_system.py
+
+# Full integration test with demo
+python rag_integration.py
 ```
 
-**Slow initial loading:**
-- First run downloads AI models (~90MB)
-- Subsequent runs are faster due to caching
+### Test Your Own Recipes
+```python
+from allergen_detection import AllergenDetector, AllergenDatabase
 
-**Docker volume mounting issues:**
-```bash
-# Use absolute paths for volume mounting
-docker run -p 8501:8501 -v "/full/path/to/project:/app" northindianrag
+detector = AllergenDetector(AllergenDatabase())
+
+recipe = "Your recipe text here..."
+detections = detector.detect_allergens(recipe)
+
+for detection in detections:
+    print(f"⚠️ {detection.warning_message}")
 ```
 
-### Performance Tips
-- Allow 1-3 minutes for initial model loading
-- Search queries take 5-15 seconds (normal for semantic search)
-- Use SSD storage for better I/O performance
+## ⚙️ Configuration
 
-## 📈 Future Enhancements
+Customize behavior in `allergen_data/integration_config.json`:
 
-- [ ] **GPU Acceleration** for faster embeddings
-- [ ] **Recipe Recommendations** based on user preferences  
-- [ ] **Nutritional Information** integration
-- [ ] **Multi-language Support** (Hindi, Punjabi)
-- [ ] **Voice Search** capabilities
-- [ ] **Recipe Image Recognition**
-- [ ] **Meal Planning** features
+```json
+{
+  "allergen_detection": {
+    "confidence_threshold": 0.6,
+    "severity_filter": ["critical", "high", "moderate"],
+    "include_regional_names": true
+  },
+  "safety_settings": {
+    "block_critical_results": false,
+    "warn_on_all_detections": true,
+    "require_confirmation": true
+  }
+}
+```
+
+## 🎯 Usage Examples
+
+### Example 1: Basic Query
+```python
+result = safe_rag.safe_query("show me creamy north indian curries")
+
+# Result includes:
+# - retrieved_documents: Your normal RAG results
+# - allergen_analysis: Detected allergens with confidence scores
+# - safety_assessment: Overall safety status
+# - recommendations: Actionable safety advice
+```
+
+### Example 2: User with Allergies
+```python
+result = safe_rag.safe_query(
+    "butter chicken recipe", 
+    user_allergies=["dairy", "tree nuts"]
+)
+
+# Will detect dairy in butter chicken and warn about user's allergy
+# Provides personalized safety recommendations
+```
+
+### Example 3: Document Analysis
+```python
+extension = RAGAllergenExtension()
+analysis = extension.analyze_retrieved_documents(documents, query)
+
+print(f"Status: {analysis['safety_assessment']['status']}")
+print(f"Found allergens: {analysis['unique_allergens']}")
+```
+
+## 🔄 Extending the System
+
+### Add New Allergens
+```python
+# In allergen_detection.py, add to _load_default_allergens():
+"turmeric": AllergenInfo(
+    name="Turmeric",
+    aliases=["turmeric", "haldi", "curcumin"],
+    severity=AllergenSeverity.MILD,
+    description="Can cause skin reactions in sensitive individuals",
+    common_sources=["curry powder", "golden milk"],
+    regional_names=["हल्दी"]
+)
+```
+
+### Add New Languages
+```python
+# Add regional terms to existing allergens:
+regional_names=["दूध", "دودھ", "ಹಾಲು"]  # Hindi, Urdu, Kannada
+```
+
+## 🚨 Safety Disclaimers
+
+⚠️ **IMPORTANT SAFETY INFORMATION:**
+
+1. **This system is for guidance only** - always verify ingredients manually
+2. **Not a substitute for medical advice** - consult healthcare providers for severe allergies
+3. **Keep emergency medication accessible** - EpiPen for anaphylactic allergies
+4. **Cross-contamination awareness** - kitchen equipment may contain traces
+5. **Recipe variations** - actual ingredients may differ from database entries
+
+## 📈 Performance & Scaling
+
+- **Fast pattern matching** with pre-compiled regex
+- **Memory efficient** database loading
+- **Scales to large document sets** - tested with 1000+ recipes
+- **Concurrent processing ready** - thread-safe design
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Make your changes and test thoroughly
-4. Commit with clear messages: `git commit -m "Add feature"`
-5. Push to your fork: `git push origin feature-name`
-6. Submit a pull request
+### Add More Indian Allergens
+1. Research traditional Indian ingredients that cause allergies
+2. Add to `indian_allergens.json` with proper Hindi names
+3. Include common dishes and regional variations
 
-## 📜 License
+### Improve Detection Accuracy
+1. Add more aliases and regional terms
+2. Improve negation detection patterns
+3. Add context-aware confidence scoring
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+### Language Support
+1. Add support for more Indian languages (Tamil, Bengali, etc.)
+2. Improve transliteration handling
+3. Add regional cuisine variations
 
-## 🙏 Acknowledgments
+## 📚 Technical Details
 
-- **Data Source**: Kaggle Indian Food Dataset by Archana's Kitchen
-- **AI Models**: Sentence Transformers by Hugging Face
-- **Vector Database**: ChromaDB by the Chroma team
-- **Web Framework**: Streamlit by Snowflake
+### Architecture
+```
+User Query → RAG Retrieval → Document Analysis → Allergen Detection → Safety Assessment → Enhanced Response
+```
 
-## 📧 Contact
+### Core Components
+- **AllergenDatabase**: Stores allergen information and mappings
+- **AllergenDetector**: Pattern matching and confidence scoring
+- **RAGAllergenExtension**: Integration layer for RAG systems
+- **SafetyEnhancedRAG**: Complete enhanced RAG wrapper
 
-**Project Maintainer**: [sambett](https://github.com/sambett)
+### Data Sources
+- Swiss Food Allergen Legislation (EU 14 categories)
+- FDA Big 8 Allergen Guidelines
+- Indian cuisine research and traditional knowledge
+- OpenFoodFacts sample data for validation
 
-**Issues**: Please report bugs and feature requests via [GitHub Issues](https://github.com/sambett/North-Indian-Cuisine-Search-System/issues)
+## 🛠️ Troubleshooting
+
+### Common Issues
+
+**No allergens detected:**
+- Check if text contains recognizable ingredient names
+- Verify database loaded correctly
+- Ensure confidence threshold isn't too high
+
+**False positives:**
+- Improve negation detection patterns
+- Add more context-aware rules
+- Adjust confidence thresholds
+
+**Performance issues:**
+- Use pre-compiled patterns (already implemented)
+- Process documents in batches
+- Consider caching frequent queries
+
+## 📞 Support
+
+For issues or questions:
+1. Check the test scripts work correctly
+2. Verify your document structure matches expected format
+3. Review configuration settings
+4. Test with simple examples first
 
 ---
 
-## 🌟 Star this Repository
-
-If you found this project helpful, please consider giving it a ⭐ star on GitHub!
-
----
-
-*Built with ❤️ for North Indian cuisine enthusiasts and AI developers*
+**Built for the North Indian RAG project** 🇮🇳  
+*Making food information safer and more accessible*

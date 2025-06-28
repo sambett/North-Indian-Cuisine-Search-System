@@ -1,24 +1,22 @@
-# Use a lightweight official Python base image
+# Basic Dockerfile for North Indian RAG (no allergen detection)
 FROM python:3.10-slim
 
-# Set working directory in the container
 WORKDIR /app
 
-# Copy all your files into the container INCLUDING the database
-COPY . .
+# Copy only essential files
+COPY requirements.txt .
+COPY streamlit_rag_app_fixed.py .
+COPY build_vector_database.py .
+COPY clean_north_indian_rag_data.json .
 
-# Install required Python packages
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Copy the vector database
+COPY north_indian_rag_db/ ./north_indian_rag_db/
 
-# Make sure the database directory exists and is accessible
-RUN ls -la north_indian_rag_db/
+# Install dependencies (skip allergen requirements)
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose Streamlit's default port
+# Expose Streamlit port
 EXPOSE 8501
 
-# Set the correct working directory
-WORKDIR /app
-
-# Run the FIXED Streamlit app
-CMD ["streamlit", "run", "streamlit_rag_app_fixed.py"]
+# Run the original streamlit app
+CMD ["streamlit", "run", "streamlit_rag_app_fixed.py", "--server.port=8501", "--server.address=0.0.0.0"]
