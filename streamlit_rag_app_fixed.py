@@ -1,10 +1,13 @@
 """
 Enhanced North Indian Cuisine RAG Search System
 Beautiful, professional Streamlit interface with advanced features
-Fixed for Streamlit Cloud deployment with ChromaDB compatibility
+Designed for Docker deployment
 """
 import streamlit as st
 import os
+import chromadb
+from chromadb.config import Settings
+from sentence_transformers import SentenceTransformer
 import pandas as pd
 import time
 
@@ -16,26 +19,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ChromaDB import with error handling for Streamlit Cloud
-try:
-    import chromadb
-    from chromadb.config import Settings
-    CHROMADB_AVAILABLE = True
-except ImportError as e:
-    st.error(f"❌ ChromaDB import failed: {e}")
-    st.info("This might be a Streamlit Cloud compatibility issue. Please check the requirements.txt file.")
-    CHROMADB_AVAILABLE = False
-    st.stop()
-
-# Sentence Transformers import with error handling
-try:
-    from sentence_transformers import SentenceTransformer
-    SENTENCE_TRANSFORMERS_AVAILABLE = True
-except ImportError as e:
-    st.error(f"❌ Sentence Transformers import failed: {e}")
-    st.info("Please ensure sentence-transformers is properly installed.")
-    SENTENCE_TRANSFORMERS_AVAILABLE = False
-    st.stop()
+# Docker deployment notice
+st.info("""
+🐳 **Docker Deployment Notice**: This RAG system is designed for Docker deployment and requires local vector database access. 
+For the full experience, run: `docker run -p 8501:8501 sambett1/north-indian-rag:latest`
+""")
 
 # Custom CSS for beautiful styling
 st.markdown("""
@@ -86,123 +74,47 @@ st.markdown("""
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
     }
-    .error-container {
-        background: #fee;
-        padding: 1rem;
-        border-radius: 8px;
-        border-left: 4px solid #dc3545;
-        margin: 1rem 0;
-    }
 </style>
 """, unsafe_allow_html=True)
 
-# Database configuration with multiple fallback paths
+# Database configuration
 POSSIBLE_DB_PATHS = [
     "./north_indian_rag_db",
     "/app/north_indian_rag_db", 
     "north_indian_rag_db",
-    "../north_indian_rag_db",
-    "/mount/src/north-indian-cuisine-search-system/north_indian_rag_db",  # Streamlit Cloud path
-    "/mount/src/north-indian-cuisine-search-system/north_indian_rag_db/"   # Alternative
+    "../north_indian_rag_db"
 ]
 
 @st.cache_resource
 def load_embedding_model():
-    """Load and cache the embedding model with error handling"""
-    try:
-        return SentenceTransformer('all-MiniLM-L6-v2')
-    except Exception as e:
-        st.error(f"❌ Failed to load embedding model: {e}")
-        return None
+    """Load and cache the embedding model"""
+    return SentenceTransformer('all-MiniLM-L6-v2')
 
 @st.cache_data
 def find_database():
-    """Find the database directory with extended search"""
+    """Find the database directory"""
     for path in POSSIBLE_DB_PATHS:
         if os.path.exists(path):
-            st.success(f"✅ Database found at: {path}")
             return path
-    
-    # Additional debug information
-    st.error("❌ Database not found in any expected location")
-    with st.expander("🔍 Debug Information"):
-        st.write("**Current working directory:**", os.getcwd())
-        st.write("**Files in current directory:**")
-        try:
-            files = os.listdir(".")
-            for file in files:
-                st.write(f"- {file}")
-        except Exception as e:
-            st.write(f"Error listing files: {e}")
-        
-        st.write("**Searched paths:**")
-        for path in POSSIBLE_DB_PATHS:
-            exists = os.path.exists(path)
-            st.write(f"- {path}: {'✅ Found' if exists else '❌ Not found'}")
-    
     return None
 
 @st.cache_resource
 def connect_to_database():
-    """Connect to ChromaDB and return collections with robust error handling"""
-    if not CHROMADB_AVAILABLE:
-        return None, {}
-    
+    """Connect to ChromaDB and return collections"""
     db_path = find_database()
     if not db_path:
         return None, {}
     
     try:
-        # Try different ChromaDB configurations for cloud compatibility
-        settings = Settings(
-            anonymized_telemetry=False,
-            allow_reset=False,
-            is_persistent=True
-        )
-        
         client = chromadb.PersistentClient(
             path=db_path,
-            settings=settings
+            settings=Settings(anonymized_telemetry=False)
         )
-        
         collections = client.list_collections()
-        st.success(f"✅ Connected to ChromaDB with {len(collections)} collections")
         return db_path, {col.name: col for col in collections}
-        
     except Exception as e:
-        st.error(f"❌ Database connection error: {str(e)}")
-        
-        # Try alternative ChromaDB configuration
-        try:
-            st.info("🔄 Trying alternative ChromaDB configuration...")
-            client = chromadb.PersistentClient(path=db_path)
-            collections = client.list_collections()
-            st.success(f"✅ Alternative connection successful with {len(collections)} collections")
-            return db_path, {col.name: col for col in collections}
-        except Exception as e2:
-            st.error(f"❌ Alternative connection also failed: {str(e2)}")
-            
-            # Provide troubleshooting information
-            with st.expander("🛠️ Troubleshooting Information"):
-                st.write("**Original Error:**", str(e))
-                st.write("**Alternative Error:**", str(e2))
-                st.write("**Database Path:**", db_path)
-                st.write("**Python Version:**", st.session_state.get('python_version', 'Unknown'))
-                st.write("**ChromaDB Available:**", CHROMADB_AVAILABLE)
-                
-                # Check database files
-                if os.path.exists(db_path):
-                    try:
-                        db_files = os.listdir(db_path)
-                        st.write("**Database files found:**")
-                        for file in db_files:
-                            file_path = os.path.join(db_path, file)
-                            size = os.path.getsize(file_path) if os.path.isfile(file_path) else "directory"
-                            st.write(f"- {file}: {size}")
-                    except Exception as e3:
-                        st.write(f"Error reading database directory: {e3}")
-            
-            return None, {}
+        st.error(f"Database connection error: {e}")
+        return None, {}
 
 def display_header():
     """Display the main header and branding"""
@@ -220,62 +132,13 @@ def display_header():
         st.markdown("🍽️ **Authentic Recipes**")
         st.caption("Traditional North Indian cuisine")
 
-def display_error_message():
-    """Display comprehensive error message for deployment issues"""
-    st.markdown("""
-    <div class="error-container">
-        <h3>🚨 System Error Detected</h3>
-        <p>Your RAG system encountered a compatibility issue, likely related to ChromaDB on Streamlit Cloud.</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("### 🔧 Common Solutions:")
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-        **For Streamlit Cloud:**
-        1. Check requirements.txt versions
-        2. Ensure packages.txt includes system dependencies  
-        3. Verify Python version compatibility
-        4. Check database file paths
-        """)
-    
-    with col2:
-        st.markdown("""
-        **For Local Development:**
-        1. Rebuild Docker image
-        2. Clear browser cache
-        3. Restart Streamlit server
-        4. Check Docker logs for details
-        """)
-    
-    with st.expander("🔍 Debug Information"):
-        st.write("**Environment Details:**")
-        st.write(f"- Current Directory: {os.getcwd()}")
-        st.write(f"- ChromaDB Available: {CHROMADB_AVAILABLE}")
-        st.write(f"- Sentence Transformers Available: {SENTENCE_TRANSFORMERS_AVAILABLE}")
-        
-        st.write("**Expected Files:**")
-        expected_files = [
-            "clean_north_indian_rag_data.json",
-            "north_indian_rag_db/",
-            "requirements.txt",
-            "packages.txt"
-        ]
-        
-        for file in expected_files:
-            exists = os.path.exists(file)
-            st.write(f"- {file}: {'✅' if exists else '❌'}")
-
 def display_database_stats(db_path, collections):
     """Display database statistics in an attractive layout"""
     st.markdown("### 📊 Database Overview")
     
     if not collections:
         st.error("❌ No database collections found")
-        display_error_message()
+        st.info("💡 **To run this app locally**: `docker run -p 8501:8501 sambett1/north-indian-rag:latest`")
         return False
     
     # Create metrics cards
@@ -380,7 +243,7 @@ def create_search_interface(collections, model):
     return selected_collection, query, num_results, min_confidence, search_clicked
 
 def display_search_results(collection, query, model, num_results, min_confidence):
-    """Display search results in an attractive format with robust error handling"""
+    """Display search results in an attractive format"""
     
     with st.spinner("🔍 Searching through thousands of authentic North Indian recipes..."):
         try:
@@ -469,19 +332,13 @@ def display_search_results(collection, query, model, num_results, min_confidence
         except Exception as e:
             st.error(f"Search error: {str(e)}")
             st.info("Please try a different search term or check your database connection.")
-            
-            with st.expander("🔍 Error Details"):
-                st.write(f"**Error Type:** {type(e).__name__}")
-                st.write(f"**Error Message:** {str(e)}")
-                st.write(f"**Query:** {query}")
-                st.write(f"**Collection:** {collection.name if hasattr(collection, 'name') else 'Unknown'}")
 
 def create_sidebar():
-    """Create an informative sidebar with system status"""
+    """Create an informative sidebar"""
     with st.sidebar:
         st.markdown("# 🍛 Navigation")
         
-        # System status
+        # Database info
         st.markdown("## 📊 System Status")
         db_path, collections = connect_to_database()
         
@@ -491,14 +348,14 @@ def create_sidebar():
             st.metric("Total Documents", f"{total_docs:,}")
         else:
             st.error("❌ Database Offline")
-            st.info("Check deployment configuration")
+            st.info("🐳 Run with Docker for full functionality")
         
-        # Model status
-        model = load_embedding_model()
-        if model:
-            st.success("✅ AI Model Loaded")
-        else:
-            st.error("❌ AI Model Failed")
+        st.markdown("---")
+        
+        # Docker instructions
+        st.markdown("## 🐳 Docker Usage")
+        st.code("docker run -p 8501:8501 sambett1/north-indian-rag:latest", language="bash")
+        st.caption("Full RAG system with 3,500+ recipes")
         
         st.markdown("---")
         
@@ -539,14 +396,10 @@ def create_sidebar():
         st.caption("🔧 Built with Streamlit & ChromaDB")
 
 def main():
-    """Main application function with comprehensive error handling"""
+    """Main application function"""
     # Initialize session state
     if 'search_query' not in st.session_state:
         st.session_state.search_query = ""
-    
-    # Store Python version for debugging
-    import sys
-    st.session_state.python_version = sys.version
     
     # Create sidebar
     create_sidebar()
@@ -554,17 +407,13 @@ def main():
     # Display header
     display_header()
     
-    # Check system requirements
-    if not CHROMADB_AVAILABLE or not SENTENCE_TRANSFORMERS_AVAILABLE:
-        display_error_message()
-        return
-    
     # Connect to database
     db_path, collections = connect_to_database()
     
-    if not db_path or not collections:
-        st.error("❌ Vector database connection failed!")
-        display_error_message()
+    if not db_path:
+        st.error("❌ Vector database not found!")
+        st.info("💡 **To run this app with full functionality**: `docker run -p 8501:8501 sambett1/north-indian-rag:latest`")
+        st.warning("This is a preview of the interface. The full RAG system requires Docker deployment with the vector database.")
         return
     
     # Display database stats
@@ -573,11 +422,6 @@ def main():
     
     # Load embedding model
     model = load_embedding_model()
-    if not model:
-        st.error("❌ Failed to load AI model!")
-        display_error_message()
-        return
-    
     st.success("✅ AI model loaded and ready")
     
     st.markdown("---")

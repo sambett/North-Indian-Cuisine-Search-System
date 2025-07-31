@@ -3,38 +3,18 @@
 **AI-Powered Semantic Search for Authentic North Indian Recipes**
 
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)](https://hub.docker.com/r/sambett1/north-indian-rag)
-[![Streamlit](https://img.shields.io/badge/Streamlit-App-FF6B35)](https://your-app.streamlit.app)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB)](https://python.org)
 
-## 🚀 Quick Start
+## 🚀 Quick Start with Docker (Recommended)
 
-### Option 1: Docker (Recommended)
 ```bash
-# Pull and run the pre-built image
+# Pull and run the complete RAG system
 docker run -p 8501:8501 sambett1/north-indian-rag:latest
 
 # Open your browser to: http://localhost:8501
 ```
 
-### Option 2: Build Locally
-```bash
-# Clone the repository
-git clone https://github.com/sambett/North-Indian-Cuisine-Search-System.git
-cd North-Indian-Cuisine-Search-System
-
-# Build and run
-docker build -t north-indian-rag .
-docker run -p 8501:8501 north-indian-rag
-```
-
-### Option 3: Python Environment
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the application
-streamlit run streamlit_rag_app_fixed.py
-```
+**That's it!** The Docker image contains everything needed for the full AI-powered search experience.
 
 ## 🧠 What is This?
 
@@ -49,8 +29,7 @@ This is a **RAG (Retrieval-Augmented Generation)** system that makes finding Nor
 - 🍛 **3,500+ Recipes** - Curated North Indian dishes
 - 🥬 **4,500+ Ingredients** - Comprehensive ingredient database
 - ⚡ **Sub-2s Response** - Lightning fast results
-- 🌍 **Hindi Translation** - Automatic translation of Hindi recipe names
-- 📊 **Quality Scoring** - Confidence ratings for each result
+- 📊 **Confidence Scoring** - Know how accurate each result is
 - 🎨 **Professional UI** - Beautiful, responsive interface
 
 ## 🎯 Try These Searches
@@ -62,6 +41,23 @@ This is a **RAG (Retrieval-Augmented Generation)** system that makes finding Nor
 "Spicy curry ingredients"
 ```
 
+## 🐳 Why Docker?
+
+This RAG system requires:
+- **Vector Database** (ChromaDB with 47,170 documents)
+- **AI Models** (Sentence Transformers for embeddings)
+- **Large Dataset** (36MB processed recipe data)
+
+Docker packages everything together for one-command deployment!
+
+## 📊 System Performance
+
+- **Search Speed**: <2 seconds average
+- **Accuracy**: 90%+ relevant results
+- **Database Size**: 60MB optimized
+- **Memory Usage**: ~1GB RAM
+- **Container Size**: ~2GB (includes full AI stack)
+
 ## 🏗️ Architecture
 
 ```
@@ -69,45 +65,31 @@ User Query → AI Understanding → Vector Search → Recipe Database → Smart 
 ```
 
 - **Frontend**: Streamlit web application
-- **Vector DB**: ChromaDB with 47,170 searchable documents
-- **AI Model**: Sentence Transformers for semantic embeddings
-- **Data**: Processed from Kaggle Indian Food Dataset
+- **Vector DB**: ChromaDB with semantic embeddings
+- **AI Model**: Sentence Transformers (all-MiniLM-L6-v2)
+- **Data**: 3,499 curated North Indian recipes
 
-## 📊 Performance
+## 🔧 Alternative Installation Methods
 
-- **Search Speed**: <2 seconds average
-- **Accuracy**: 90%+ relevant results
-- **Database Size**: 60MB optimized
-- **Memory Usage**: ~1GB RAM
-- **Concurrent Users**: 50+ supported
-
-## 🔧 Development
-
-### Requirements
-- Python 3.10+
-- Docker (recommended)
-- 2GB RAM minimum
-
-### Local Development
+### Option 1: Build Locally
 ```bash
-# Clone and setup
+git clone https://github.com/sambett/North-Indian-Cuisine-Search-System.git
+cd North-Indian-Cuisine-Search-System
+docker build -t north-indian-rag .
+docker run -p 8501:8501 north-indian-rag
+```
+
+### Option 2: Python Environment (Advanced)
+```bash
+# Clone repository
 git clone https://github.com/sambett/North-Indian-Cuisine-Search-System.git
 cd North-Indian-Cuisine-Search-System
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Run locally
+# Run application (requires all data files)
 streamlit run streamlit_rag_app_fixed.py
-```
-
-### Docker Development
-```bash
-# Build image
-docker build -t north-indian-rag .
-
-# Run with live code changes
-docker run -p 8501:8501 -v $(pwd):/app north-indian-rag
 ```
 
 ## 📁 Project Structure
@@ -116,48 +98,46 @@ docker run -p 8501:8501 -v $(pwd):/app north-indian-rag
 ├── streamlit_rag_app_fixed.py      # Main Streamlit application
 ├── clean_north_indian_rag_data.json # Recipe database (36MB)
 ├── north_indian_rag_db/            # ChromaDB vector database
-├── rag_enhancer.py                 # Advanced evaluation system
 ├── requirements.txt                # Python dependencies
 ├── Dockerfile                      # Container configuration
 └── README.md                       # This file
 ```
 
-## 🌟 What Makes This Special
+## ⚠️ Important Notes
+
+### **Streamlit Cloud Deployment**
+This app is **not designed for Streamlit Cloud** due to:
+- Large vector database files (60MB+)
+- ChromaDB compatibility requirements
+- System dependencies for AI models
+
+**Solution**: Use the Docker image which contains everything pre-configured!
+
+### **Cloud Hosting Alternatives**
+- **AWS ECS/EKS**: Deploy Docker container
+- **Google Cloud Run**: Supports container deployment
+- **Azure Container Instances**: Easy Docker hosting
+- **Local Development**: Perfect for Docker Desktop
+
+## 🎨 What Makes This Special
 
 ### Technical Innovation
 - **Vector Embeddings**: Mathematical representation of recipe meanings
 - **Semantic Understanding**: AI comprehends cooking context and ingredients
-- **Multi-Language Support**: Automatic Hindi recipe translation
-- **Real-Time Analytics**: Performance monitoring and quality scoring
+- **Multi-Collection Search**: Specialized search types (recipes, ingredients, general)
+- **Real-Time Performance**: Optimized for speed and accuracy
 
 ### Real-World Impact
-- **Accessibility**: Makes Hindi recipes searchable in English
+- **Accessibility**: Makes traditional recipes searchable and discoverable
 - **Speed**: 10x faster than manual recipe browsing
 - **Accuracy**: AI understanding vs simple keyword matching
-- **Scale**: Ready for thousands of concurrent users
-
-## 🚀 Deployment
-
-### Streamlit Cloud
-1. Fork this repository
-2. Connect to [share.streamlit.io](https://share.streamlit.io)
-3. Deploy with `streamlit_rag_app_fixed.py`
-
-### Docker Hub
-```bash
-# Available as pre-built image
-docker pull sambett1/north-indian-rag:latest
-docker run -p 8501:8501 sambett1/north-indian-rag:latest
-```
-
-### Self-Hosted
-Deploy the Docker container on any cloud platform (AWS, GCP, Azure).
+- **Scale**: Ready for production use
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature-name`
-3. Make changes and test locally
+3. Make changes and test with Docker
 4. Submit a pull request
 
 ## 📄 License
