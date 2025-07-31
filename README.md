@@ -1,281 +1,141 @@
-# 🍛 North Indian Cuisine RAG Search System
+# 🍛 North Indian Cuisine Semantic Search
 
-**Enterprise-Grade AI-Powered Semantic Search Engine for Authentic North Indian Recipes**
+A CPU-optimized semantic search system for North Indian recipes using vector embeddings and ChromaDB.
 
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED)](https://hub.docker.com/r/sambett1/north-indian-rag)
-[![Python](https://img.shields.io/badge/Python-3.10+-3776AB)](https://python.org)
-[![RAG](https://img.shields.io/badge/RAG-Powered-FF6B35)](https://github.com/sambett/North-Indian-Cuisine-Search-System)
+## ✨ What This System Does
+
+- **Semantic Recipe Search**: Find recipes by ingredients, dish names, or cooking styles using AI embeddings
+- **Fast Performance**: Sub-second search responses across 3,499+ North Indian recipes  
+- **Multi-Search Types**: Recipe-to-ingredients, ingredient-to-recipes, and general food queries
+- **CPU-Only Deployment**: No GPU requirements, runs efficiently on standard hardware
 
 ## 🚀 Quick Start
 
+### Docker (Recommended)
 ```bash
-# One command to run the complete system
-docker run -p 8501:8501 sambett1/north-indian-rag:latest
-
+docker build -t north-indian-rag .
+docker run -p 8501:8501 north-indian-rag
 # Open: http://localhost:8501
 ```
 
-## 🏗️ Complete Project Architecture
-
-This repository showcases a **full-stack RAG (Retrieval-Augmented Generation) system** built from scratch, including:
-
-### 🧠 **AI/ML Engineering**
-- **Vector Database Creation** (`build_vector_database.py`)
-- **Semantic Embeddings** with Sentence Transformers
-- **Multi-Collection Architecture** (47,170 searchable documents)
-- **Advanced Evaluation Metrics** (`rag_enhancer.py`)
-
-### 📊 **Data Engineering**
-- **ETL Pipeline** (`clean_process_indian_food.py`)
-- **Data Processing**: 6,871 → 3,499 curated recipes
-- **Quality Assurance**: Ingredient extraction and normalization
-- **Database Optimization**: 500MB+ → 60MB production-ready
-
-### 🐳 **DevOps & Deployment**
-- **Containerization** with Docker
-- **Production Configuration** (`docker-compose.yml`)
-- **Local Development Tools** (`scripts/`)
-- **Performance Monitoring** and analytics
-
-### 🎨 **Frontend Development**
-- **Professional Streamlit Interface**
-- **Real-time Search** with confidence scoring
-- **Responsive Design** with custom CSS
-- **User Experience Optimization**
-
-## 📁 Project Structure
-
-```
-North-Indian-Cuisine-Search-System/
-├── 🎯 CORE APPLICATION
-│   ├── streamlit_rag_app_fixed.py      # Main Streamlit application
-│   ├── clean_north_indian_rag_data.json # Processed recipe database (36MB)
-│   └── north_indian_rag_db/            # ChromaDB vector database (25MB)
-│
-├── 🧠 AI/ML ENGINEERING
-│   ├── build_vector_database.py        # Vector database creation system
-│   ├── rag_enhancer.py                 # Advanced evaluation & analytics
-│   └── demo_evaluation.py              # System testing & validation
-│
-├── 📊 DATA ENGINEERING
-│   └── clean_process_indian_food.py    # Complete ETL data pipeline
-│
-├── 🐳 DEPLOYMENT
-│   ├── Dockerfile                      # Production container config
-│   ├── docker-compose.yml              # Multi-service orchestration
-│   └── requirements.txt                # Python dependencies
-│
-├── 🛠️ DEVELOPMENT TOOLS
-│   └── scripts/
-│       ├── load_data.py                # Alternative data loader
-│       ├── check_collections.py        # Database verification
-│       └── run-local.bat               # Local testing script
-│
-├── 📚 DOCUMENTATION
-│   └── docs/
-│       ├── PROJECT-SUMMARY.md          # Complete project overview
-│       └── DOCKER-README.md            # Docker deployment guide
-│
-└── ⚙️ CONFIGURATION
-    ├── .streamlit/config.toml          # Streamlit settings
-    └── .gitignore                      # Git configuration
-```
-
-## 🎯 Key Technical Achievements
-
-### **1. Advanced RAG Architecture**
-```python
-# Multi-collection vector search system
-Collections:
-├── north_indian_recipes (3,499 documents)    # Recipe → Ingredients
-├── ingredient_usage (43,671 documents)       # Ingredient → Recipes  
-└── general_food_search (3,499 documents)     # Semantic food queries
-```
-
-### **2. Production-Grade Data Pipeline**
-```python
-Raw Data (6,871 recipes) 
-    ↓ Data Cleaning & Validation
-    ↓ Ingredient Extraction & Normalization  
-    ↓ Quality Filtering (3+ ingredients minimum)
-    ↓ Vector Embedding Generation
-    ↓ Multi-Collection Database Creation
-Final: 47,170 optimized searchable documents
-```
-
-### **3. Professional Evaluation System**
-- **Quality Scoring** (0-100 scale)
-- **Confidence Analysis** with statistical metrics
-- **Performance Monitoring** (response times, accuracy)
-- **User Analytics** and search pattern analysis
-
-### **4. Enterprise Deployment**
-- **Docker Containerization** (~2GB optimized image)
-- **Production Configuration** with health checks
-- **Scalable Architecture** (50+ concurrent users)
-- **Memory Optimization** (~1GB RAM usage)
-
-## 📈 System Performance Metrics
-
-| Metric | Value | Industry Standard |
-|--------|-------|------------------|
-| **Search Speed** | <2 seconds | 3-5 seconds |
-| **Accuracy** | 90%+ relevant | 70-80% |
-| **Database Size** | 60MB optimized | 500MB+ typical |
-| **Memory Usage** | ~1GB RAM | 2-4GB typical |
-| **Concurrent Users** | 50+ supported | 10-20 typical |
-| **Container Size** | 2GB (full AI stack) | 5GB+ typical |
-
-## 🧪 Development & Testing
-
-### **Run the Complete Development Environment**
+### Local Development
 ```bash
-# 1. Build the system from source
-git clone https://github.com/sambett/North-Indian-Cuisine-Search-System.git
-cd North-Indian-Cuisine-Search-System
-
-# 2. Test data processing pipeline
-python clean_process_indian_food.py
-
-# 3. Build vector database
-python build_vector_database.py
-
-# 4. Test evaluation system  
-python demo_evaluation.py
-
-# 5. Run local development server
-docker-compose up
-```
-
-### **Professional Testing Suite**
-```bash
-# Database verification
-python scripts/check_collections.py
-
-# Alternative data loading
-python scripts/load_data.py
-
-# Local testing (Windows)
-scripts/run-local.bat
-```
-
-## 🔬 Technical Deep Dive
-
-### **Vector Embeddings Architecture**
-- **Model**: Sentence Transformers (all-MiniLM-L6-v2)
-- **Embedding Dimensions**: 384-dimensional vectors
-- **Similarity Metric**: Cosine similarity with distance conversion
-- **Storage**: ChromaDB with HNSW indexing
-
-### **Search Algorithm**
-```python
-Query Processing Flow:
-1. Text → Vector Embedding (384 dimensions)
-2. Similarity Search across 47K+ documents  
-3. Distance → Confidence Score conversion
-4. Multi-collection result aggregation
-5. Relevance ranking & filtering
-6. Response formatting & delivery
-```
-
-### **Performance Optimizations**
-- **Batch Processing** for database creation
-- **Caching** with Streamlit decorators
-- **Memory Management** with garbage collection
-- **Connection Pooling** for database access
-
-## 🌟 Business Impact & Use Cases
-
-### **Target Applications**
-- **Restaurant Menu Planning**: Ingredient sourcing and cost optimization
-- **Food Blogging**: Authentic recipe research and verification
-- **Cooking Education**: Traditional technique and ingredient learning
-- **Meal Planning**: Dietary restriction and preference matching
-
-### **Scalability Potential**
-- **Multi-Regional Expansion**: Extendable to other Indian cuisines
-- **API Integration**: RESTful service for third-party applications
-- **Mobile Development**: Native app with same backend
-- **Enterprise SaaS**: White-label solution for food industry
-
-## 🛠️ Technology Stack
-
-### **Backend**
-- **Vector Database**: ChromaDB 1.0.13
-- **AI/ML**: Sentence Transformers 4.1.0, PyTorch 2.0+
-- **Data Processing**: Pandas, NumPy
-- **Web Framework**: Streamlit 1.28+
-
-### **DevOps**
-- **Containerization**: Docker with multi-stage builds
-- **Orchestration**: Docker Compose
-- **Version Control**: Git with professional commit history
-- **Documentation**: Markdown with structured project docs
-
-### **Data Sources**
-- **Primary**: Kaggle Indian Food Dataset (6,871 recipes)
-- **Processed**: 3,499 curated North Indian recipes
-- **Validated**: Manual quality assurance and ingredient verification
-
-## 🚀 Deployment Options
-
-### **1. Docker (Recommended)**
-```bash
-# Production deployment
-docker run -p 8501:8501 sambett1/north-indian-rag:latest
-
-# Development with compose
-docker-compose up --build
-```
-
-### **2. Cloud Platforms**
-- **AWS ECS/EKS**: Container orchestration
-- **Google Cloud Run**: Serverless container deployment
-- **Azure Container Instances**: Managed container hosting
-
-### **3. Local Development**
-```bash
-# Python environment setup
 pip install -r requirements.txt
 streamlit run streamlit_rag_app_fixed.py
 ```
 
-## 🤝 Contributing
+## 📊 System Performance (Real Data)
 
-### **Development Setup**
-1. Fork the repository
-2. Set up local environment: `pip install -r requirements.txt`
-3. Run tests: `python demo_evaluation.py`
-4. Make changes and test with Docker
-5. Submit pull request with comprehensive description
+Based on actual testing with live database:
 
-### **Code Standards**
-- **Python**: PEP 8 compliant with type hints
-- **Documentation**: Comprehensive docstrings and comments
-- **Testing**: Unit tests for core functionality
-- **Git**: Conventional commit messages
+- **Database Size**: 3,499 North Indian recipes + 1,000 ingredient documents
+- **Average Response Time**: 0.416 seconds
+- **Search Success Rate**: 100% (all queries return results)
+- **Memory Usage**: ~1GB RAM for full operation
+- **Storage**: 60MB vector database + 36MB recipe data
+
+**Sample Search Results**:
+- "Dal Makhani" → 0.607s response, finds lentil recipes
+- "paneer dishes" → 0.329s response, 41.4% confidence match
+- "North Indian food" → 0.478s response, 38.3% confidence match
+
+## 🏗️ Architecture
+
+### Data Pipeline
+1. **Raw Data**: Kaggle Indian Food Dataset (6,871 recipes)
+2. **Processing**: `clean_process_indian_food.py` filters to 3,499 North Indian recipes
+3. **Vectorization**: `build_vector_database.py` creates embeddings using Sentence Transformers
+4. **Storage**: ChromaDB with 3 specialized collections
+
+### Search System
+- **Embedding Model**: `all-MiniLM-L6-v2` (384-dimensional vectors)
+- **Vector Database**: ChromaDB with persistent storage
+- **Search Types**: 
+  - Recipe search (find ingredients in dishes)
+  - Ingredient search (find dishes using specific ingredients)
+  - General food queries (broad cuisine exploration)
+
+## 📁 Key Files
+
+- `streamlit_rag_app_fixed.py` - Web interface
+- `build_vector_database.py` - Vector database creation
+- `clean_process_indian_food.py` - Data processing pipeline
+- `clean_north_indian_rag_data.json` - Processed recipe database (36MB)
+- `north_indian_rag_db/` - ChromaDB vector database (25MB)
+
+## 🛠️ Technology Stack
+
+- **Python 3.10+**
+- **Streamlit** - Web interface
+- **ChromaDB** - Vector database
+- **Sentence Transformers** - Text embeddings
+- **Docker** - Containerized deployment
+
+## 📈 Search Capabilities
+
+### What Works Well
+- Finding recipes by dish name (e.g., "Dal Makhani" finds lentil recipes)
+- Ingredient-based search (e.g., "paneer dishes" returns cottage cheese recipes)
+- Regional cuisine queries (e.g., "North Indian food" returns appropriate results)
+- Fast response times under 1 second
+
+### Current Limitations
+- Confidence scores average 31.4% (functional but could be improved)
+- Limited semantic understanding for some ingredient synonyms
+- English-only interface (no Hindi translation currently active)
+
+## 🔧 Setup Requirements
+
+```bash
+# Install dependencies
+pip install streamlit>=1.28.0 chromadb==1.0.13 sentence-transformers==4.1.0 pandas numpy torch
+
+# Build vector database (one-time setup)
+python build_vector_database.py
+
+# Run application
+streamlit run streamlit_rag_app_fixed.py
+```
+
+## 🐳 Docker Deployment
+
+The system includes production-ready Docker configuration:
+
+```dockerfile
+FROM python:3.10-slim
+# Includes all dependencies and data
+# Final image: ~2GB (includes AI models and vector database)
+```
+
+**No rebuild required** for README updates - Docker image contains the full system.
+
+## 🧪 Testing
+
+Verify your setup:
+```bash
+python scripts/check_collections.py  # Check database collections
+```
+
+Expected output:
+- `north_indian_recipes`: 3,499 documents
+- `ingredient_usage`: 1,000 documents  
+- `general_food_search`: 100 documents
+
+## 🎯 Use Cases
+
+- **Recipe Discovery**: "What ingredients are in Chole Bhature?"
+- **Ingredient Exploration**: "Which dishes use paneer?"
+- **Cuisine Research**: "Traditional North Indian breakfast dishes"
+- **Cooking Planning**: Find recipes based on available ingredients
+
+## 🔮 Future Work
+
+Future enhancements include LLM-based response generation and improved evaluation scoring, but these are currently not integrated due to compute constraints (CPU-only setup).
 
 ## 📄 License
 
 MIT License - See [LICENSE](LICENSE) for details.
 
-## 🏆 Acknowledgments
-
-- **Data Source**: Kaggle Indian Food Dataset from Archana's Kitchen
-- **AI Models**: Sentence Transformers by UKPLab
-- **Vector Database**: ChromaDB by the Chroma team
-- **Web Framework**: Streamlit by Snowflake
-
 ---
 
-## 📞 Contact & Demo
-
-**🎥 Live Demo**: [Docker Hub](https://hub.docker.com/r/sambett1/north-indian-rag)  
-**💼 Portfolio**: This project demonstrates enterprise-grade RAG system development  
-**🔗 Connect**: Professional AI/ML engineering showcase
-
----
-
-**Built with ❤️ for North Indian cuisine lovers and AI enthusiasts**
-
-*This project represents a complete RAG system development lifecycle from data processing to production deployment.*
+**Built for efficient semantic search of North Indian cuisine without GPU requirements.**
