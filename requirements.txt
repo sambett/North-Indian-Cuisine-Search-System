@@ -1,23 +1,26 @@
-# North Indian RAG System - Production Dependencies  
-# Enhanced with professional evaluation and analytics
+# North Indian RAG System - Streamlit Cloud Compatible
+# Fixed ChromaDB compatibility issues
 
 # Web Framework
 streamlit>=1.28.0
 
-# Vector Database & AI
-chromadb==1.0.13
-sentence-transformers==4.1.0
+# Vector Database & AI - Fixed versions for Streamlit Cloud
+chromadb==0.4.15
+sentence-transformers==2.2.2
 
 # Data Processing
-pandas>=1.5.0
-numpy>=1.24.0
+pandas>=1.5.0,<2.0.0
+numpy>=1.24.0,<1.25.0
 
-# Machine Learning (CPU optimized)
-torch>=2.0.0
+# Machine Learning (CPU optimized for cloud)
+torch>=2.0.0,<2.1.0
 
 # Professional Analytics & Visualizations
 plotly>=5.15.0
 
-# Note: All dependencies tested for Streamlit Cloud deployment
-# Total install size: ~850MB (optimized for cloud limits)
-# New: Added plotly for performance dashboards and evaluation metrics
+# Additional dependencies for ChromaDB stability
+sqlite3-to-mysql>=1.4.16
+pysqlite3-binary>=0.5.0
+
+# Note: Pinned versions for Streamlit Cloud compatibility
+# ChromaDB 0.4.15 is stable with Python 3.13 and Streamlit Cloud
