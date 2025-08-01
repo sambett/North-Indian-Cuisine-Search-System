@@ -24,6 +24,12 @@ pip install -r requirements.txt
 streamlit run streamlit_rag_app_fixed.py
 ```
 
+## 🎥 System Demo
+
+**Watch the RAG system in action:** [https://youtu.be/oGl7WEDB8m8](https://youtu.be/oGl7WEDB8m8)
+
+> **Note**: This demo shows an earlier version with local LLM integration (Ollama). The current production version uses CPU-only semantic search without LLM generation for improved performance and reduced resource requirements. The core search functionality and database remain the same.
+
 ## 📊 System Performance (Real Data)
 
 Based on actual testing with live database:
@@ -54,6 +60,10 @@ Based on actual testing with live database:
   - Recipe search (find ingredients in dishes)
   - Ingredient search (find dishes using specific ingredients)
   - General food queries (broad cuisine exploration)
+
+### Architecture Evolution
+- **Previous Version** (shown in demo): Local LLM with Ollama for natural language generation
+- **Current Version**: CPU-optimized semantic search without LLM for better performance and deployment simplicity
 
 ## 📁 Key Files
 
