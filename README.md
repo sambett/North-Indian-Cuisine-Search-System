@@ -11,7 +11,13 @@ A CPU-optimized semantic search system for North Indian recipes using vector emb
 
 ## 🚀 Quick Start
 
-### Docker (Recommended)
+### Docker Hub - Ready to Go (Fastest)
+```bash
+docker run -p 8501:8501 sambett1/north-indian-rag:latest
+# Open: http://localhost:8501
+```
+
+### Docker - Build from Source
 ```bash
 docker build -t north-indian-rag .
 docker run -p 8501:8501 north-indian-rag
